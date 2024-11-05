@@ -1,0 +1,15 @@
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+import java.util.List;
+import java.util.Map;
+
+public class JasperInvoiceGenerator {
+    public void generateInvoicePDF(Map<String, Object> parameters, List<?> data, String outputFile) throws JRException {
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data);
+        JasperReport jasperReport = JasperCompileManager.compileReport("InvoiceTemplate.jrxml");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        
+        JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
+    }
+}
