@@ -1,0 +1,56 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class InvoiceUI extends JFrame {
+    private JTextField customerNameField, productField, quantityField;
+    private JButton addProductButton, generateInvoiceButton;
+
+    public InvoiceUI(CustomerManager customerManager, ProductCatalog productCatalog, InvoiceManager invoiceManager) {
+        setTitle("Invoice Generator");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        // Components
+        customerNameField = new JTextField(20);
+        productField = new JTextField(20);
+        quantityField = new JTextField(10);
+        
+        addProductButton = new JButton("Add Product");
+        generateInvoiceButton = new JButton("Generate Invoice");
+
+        // Layout
+        setLayout(new GridLayout(5, 2));
+        add(new JLabel("Customer Name:"));
+        add(customerNameField);
+        add(new JLabel("Product Name:"));
+        add(productField);
+        add(new JLabel("Quantity:"));
+        add(quantityField);
+        add(addProductButton);
+        add(generateInvoiceButton);
+
+        // Action Listeners
+        addProductButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String customerName = customerNameField.getText();
+                String productName = productField.getText();
+                int quantity = Integer.parseInt(quantityField.getText());
+                invoiceManager.addProductToInvoice(customerName, productName, quantity);
+                JOptionPane.showMessageDialog(null, "Product added to invoice.");
+            }
+        });
+
+        generateInvoiceButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                invoiceManager.generateInvoice();
+                JOptionPane.showMessageDialog(null, "Invoice generated successfully!");
+            }
+        });
+    }
+
+    public void display() {
+        setVisible(true);
+    }
+}
